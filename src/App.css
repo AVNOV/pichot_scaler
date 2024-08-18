@@ -115,6 +115,20 @@ button:active {
 }
 
 /* Modal Styles */
+.modal-button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #6E72C8;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-button:hover {
+  background-color: #5B5EBA;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
