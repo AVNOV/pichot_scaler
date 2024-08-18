@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Question, { questions } from './components/Question';
-import './App.css'; // Assurez-vous d'importer les styles CSS
+import IntroModal from './components/IntroModal';
+import ResultModal from './components/ResultModal';
+import './App.css';
+import Header from './components/Header';
 
 const App: React.FC = () => {
-  const [scores, setScores] = useState<number[]>(Array(8).fill(0));
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [scores, setScores] = useState<number[]>(Array(8).fill(null));
 
-  const totalScore = scores.reduce((acc, score) => acc + score, 0);
+  const totalScore = scores.reduce((acc, score) => acc + (score !== null ? score : 0), 0);
 
   const handleScoreChange = (index: number, score: number) => {
     const newScores = [...scores];
@@ -14,13 +16,28 @@ const App: React.FC = () => {
     setScores(newScores);
   };
 
-  const toggleModal = () => setModalOpen(!isModalOpen);
+  const allAnswered = scores.every(score => score !== null);
+
+  const [isIntroModalOpen, setIntroModalOpen] = useState(true);
+  const [isResultModalOpen, setResultModalOpen] = useState(false);
+
+  const closeIntroModal = () => setIntroModalOpen(false);
+  const toggleResultModal = () => setResultModalOpen(!isResultModalOpen);
+
+  useEffect(() => {
+    setIntroModalOpen(true);
+  }, []);
+
+  const getCategory = (total: number) => {
+    if (total <= 8) return "Pas de fatigue significative";
+    if (total <= 16) return "Fatigue légère";
+    if (total <= 24) return "Fatigue modérée";
+    return "Fatigue sévère";
+  };
 
   return (
     <div className="app-container">
-      <header className="app-header">
-        <h1>Échelle de Fatigue de Pichot</h1>
-      </header>
+      <Header />
       <main className="questions-container">
         {questions.map((question, index) => (
           <Question
@@ -29,19 +46,26 @@ const App: React.FC = () => {
             onScoreChange={(score) => handleScoreChange(index, score)}
           />
         ))}
-        <button className="result-button" onClick={toggleModal}>
+        <button
+          className="result-button"
+          onClick={toggleResultModal}
+          disabled={!allAnswered}
+          style={{
+            backgroundColor: allAnswered ? '#6E72C8' : '#d3d3d3',
+            cursor: allAnswered ? 'pointer' : 'not-allowed',
+          }}
+        >
           Voir le résultat
         </button>
       </main>
-      {isModalOpen && (
-        <div className="modal-overlay" onClick={toggleModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2>Résultat</h2>
-            <p>Votre score total est : {totalScore}</p>
-            <button onClick={toggleModal}>Fermer</button>
-          </div>
-        </div>
-      )}
+
+      <IntroModal isOpen={isIntroModalOpen} onClose={closeIntroModal} />
+      <ResultModal 
+        isOpen={isResultModalOpen} 
+        onClose={toggleResultModal} 
+        totalScore={totalScore} 
+        category={getCategory(totalScore)} 
+      />
     </div>
   );
 };
