@@ -51,7 +51,7 @@ const App: React.FC = () => {
           onClick={toggleResultModal}
           disabled={!allAnswered}
           style={{
-            backgroundColor: allAnswered ? '#6E72C8' : '#d3d3d3',
+            backgroundColor: allAnswered ? '#3498db' : '#d3d3d3',
             cursor: allAnswered ? 'pointer' : 'not-allowed',
           }}
         >
