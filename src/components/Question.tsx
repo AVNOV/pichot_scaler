@@ -35,7 +35,7 @@ const Question: React.FC<QuestionProps> = ({ questionText, onScoreChange }) => {
                         style={{
                             marginRight: '0.5em',
                             padding: '0.5em 1em',
-                            backgroundColor: score === value ? '#D2A74A' : '#e0e0e0',
+                            backgroundColor: score === value ? '#DC7633' : '#E0E0E0',
                             color: score === value ? 'white' : 'black',
                             border: 'none',
                             borderRadius: '4px',
