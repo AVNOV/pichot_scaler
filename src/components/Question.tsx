@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
 
+export const questions = [
+    "Je manque d'énergie",
+    "Tout demande un effort",
+    "Je me sens faible à certains endroit du corp",
+    "J'ai les bras ou les jambes lourdes",
+    "Je me sens fatigué sans raison",
+    "J'ai envie de m'allogner ou de me reposer",
+    "J'ai du mal à me concentrer",
+    "Je me sens fatigué, lourd et raid"
+];
+
 interface QuestionProps {
     questionText: string;
     onScoreChange: (score: number) => void;
@@ -14,7 +25,7 @@ const Question: React.FC<QuestionProps> = ({ questionText, onScoreChange }) => {
     };
 
     return (
-        <div style={{ marginBottom: '1em' }}>
+        <div style={{ marginBottom: '1em', paddingLeft: '1.5em' }}>
             <p>{questionText}</p>
             <div>
                 {[0, 1, 2, 3, 4].map((value) => (
@@ -24,7 +35,7 @@ const Question: React.FC<QuestionProps> = ({ questionText, onScoreChange }) => {
                         style={{
                             marginRight: '0.5em',
                             padding: '0.5em 1em',
-                            backgroundColor: score === value ? '#4CAF50' : '#e0e0e0',
+                            backgroundColor: score === value ? '#D2A74A' : '#e0e0e0',
                             color: score === value ? 'white' : 'black',
                             border: 'none',
                             borderRadius: '4px',
